@@ -1,0 +1,150 @@
+@import "tailwindcss";
+@import "./palette.css";
+
+/*
+ * Divotz semantic layer.
+ *
+ * Two colour systems live side by side and must never bleed into each other:
+ *
+ *   1. Divotz semantics (surface / ink / success / warning / danger). These
+ *      carry meaning. A club's brand colour never overwrites them - a club
+ *      whose brand is red does not get red "success" states.
+ *   2. Club theme tokens (--club-*). These are set per request from the club's
+ *      brand colours and always ship a matching foreground, computed for
+ *      contrast rather than hardcoded.
+ *
+ * There is no dark mode. Divotz is a light-mode product; club colours may be
+ * dark, which is exactly why every branded surface pairs with a computed
+ * foreground instead of assuming black text.
+ */
+
+@theme {
+  /* Surfaces - warm, never pure white */
+  --color-surface: var(--color-cream-100);
+  --color-surface-sunk: var(--color-cream-500);
+  --color-surface-raised: #FFFFFF;
+  --color-surface-inverse: var(--color-grey-800);
+
+  /* Ink - warm near-black, never #000 */
+  --color-ink: var(--color-grey-800);
+  --color-ink-muted: var(--color-grey-400);
+  --color-ink-subtle: var(--color-grey-300);
+  --color-ink-inverse: var(--color-cream-100);
+
+  --color-line: var(--color-cream-800);
+  --color-line-strong: var(--color-grey-200);
+
+  /* Brand */
+  --color-brand: var(--color-green-500);
+  --color-brand-dark: var(--color-green-800);
+  --color-brand-light: var(--color-green-100);
+
+  --font-sans: var(--font-club-sans, ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+  --font-display: var(--font-club-display, var(--font-sans));
+
+  --radius-card: 0.875rem;
+
+  --shadow-card: 0 1px 2px rgb(30 33 30 / 0.04), 0 4px 16px -6px rgb(30 33 30 / 0.10);
+  --shadow-pop: 0 8px 32px -8px rgb(30 33 30 / 0.18);
+}
+
+/*
+ * Club theme defaults. Every club - free or Pro - gets these tokens; Pro simply
+ * means the club is allowed to change them. Components only ever read the
+ * tokens, so a free club renders through the same code path as a Pro one.
+ */
+:root {
+  --club-primary: var(--color-green-500);
+  --club-primary-foreground: var(--color-cream-100);
+  --club-primary-soft: var(--color-green-100);
+  --club-secondary: var(--color-blue-500);
+  --club-secondary-foreground: var(--color-cream-100);
+  --club-accent: var(--color-sand-500);
+  --club-accent-foreground: var(--color-grey-800);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--club-primary);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--club-primary-soft);
+  }
+}
+
+@layer utilities {
+  .club-primary-bg {
+    background-color: var(--club-primary);
+    color: var(--club-primary-foreground);
+  }
+
+  .club-accent-bg {
+    background-color: var(--club-accent);
+    color: var(--club-accent-foreground);
+  }
+
+  /*
+   * A scorecard-style rule: the thin double line off a paper scorecard.
+   *
+   * Drawn with a pseudo-element rather than a box-shadow - a shadow offsets
+   * the whole box, so it escapes along the bottom edge and rules a line
+   * straight through the content.
+   */
+  .rule-scorecard {
+    position: relative;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .rule-scorecard::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--color-line);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-safe-only {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+}
+
+/* A secondary sidebar arriving. Short enough to read as a context change. */
+@keyframes divotz-layer {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

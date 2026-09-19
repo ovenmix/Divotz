@@ -1,0 +1,6 @@
+<!-- Placeholder club icon (favicon). Replace with real artwork. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Gleniffer Golf">
+  <rect width="32" height="32" rx="7" fill="#304832"/>
+  <circle cx="16" cy="14" r="6.5" fill="#F5F2E9"/>
+  <path d="M6 24c3-2.4 6-3.6 9.2-3.6 1.4 0 2.7.2 3.7.7 1.8.8 3.8.8 6 0l1.6-.6" stroke="#D6C19B" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+</svg>
